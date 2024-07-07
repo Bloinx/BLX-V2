@@ -219,6 +219,7 @@
     }
   },
   "infoLoader": {
+    "defaultLoadingMessage": "Loading...",
     "roundPage": "Loading round's info...",
     "page": "Loading payment's info...",
     "approve": "Approving transaction...",

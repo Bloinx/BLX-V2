@@ -14,6 +14,7 @@ export function WalletProvider({ children }) {
   // const [walletAddress, setWalletAddress] = useState(null);
   const [chainId, setChainId] = useState(null);
   const [funds, setFunds] = useState(null);
+  const [walletName, setWalletName] = useState();
   const [accountData, setAccountData] = useState({
     publicAddress: null,
     originalAdress: null,
@@ -28,21 +29,26 @@ export function WalletProvider({ children }) {
         return;
       }
 
+      // Requesting accounts
       await detectedProvider.request({ method: "eth_requestAccounts" });
+
+      // Getting the list of accounts
+      const accounts = await detectedProvider.request({
+        method: "eth_accounts",
+      });
+      const selectedAddress = accounts[0];
+
       setProvider(detectedProvider);
-      // setWalletAddress(detectedProvider.selectedAddress);
+      setWalletName(walletName);
       setChainId(network?.chainId);
       setAccountData({
-        publicAddress: `${detectedProvider.selectedAddress?.slice(
-          0,
-          4
-        )}...${detectedProvider.selectedAddress?.slice(
-          detectedProvider.selectedAddress.length - 4,
-          detectedProvider.selectedAddress.length
-        )}`.toUpperCase(),
-        originalAdress: detectedProvider.selectedAddres,
+        publicAddress:
+          `${selectedAddress?.slice(0, 4)}...${selectedAddress?.slice(
+            selectedAddress.length - 4,
+            selectedAddress.length
+          )}`.toUpperCase(),
+        originalAdress: selectedAddress,
       });
-      // Aquí se podría manejar el cambio de red, etc.
     } catch (error) {
       console.error("Failed to connect wallet:", error);
     }
@@ -90,6 +96,8 @@ export function WalletProvider({ children }) {
         connectWallet,
         disconnectWallet,
         provider,
+        setProvider,
+        walletName,
       }}
     >
       {children}

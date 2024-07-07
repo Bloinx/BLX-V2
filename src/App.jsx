@@ -17,9 +17,10 @@ import Dashboard from "./containers/Dashboard";
 // import RoundDetails from "./containers/RoundDetails";
 // import Invitations from "./containers/Invitations";
 // import { ProvideRound } from "./contexts/RoundsContext";
-import "./App.css";
+import "./App.scss";
 // import { ProvideAuth } from "./hooks/useAuth"; //MIGRANDO....
 import { AuthProvider } from "./context/AuthContext";
+import { WalletProvider } from "./context/WalletContext";
 
 import ForgotPass from "./containers/ForgotPass";
 import UpdatePass from "./containers/UpdatePass";
@@ -39,35 +40,37 @@ function App() {
       }}
     >
       <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/forgotpass" element={<ForgotPass />} />
-          <Route path="/update-password" element={<UpdatePass />} />
+        <WalletProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/forgotpass" element={<ForgotPass />} />
+            <Route path="/update-password" element={<UpdatePass />} />
 
-          <Route
-            path="/dashboard"
-            element={
-              <Markup>
-                <ProtectedRoute element={<Dashboard />} />
-              </Markup>
-            }
-          />
+            <Route
+              path="/dashboard"
+              element={
+                <Markup>
+                  <ProtectedRoute element={<Dashboard />} />
+                </Markup>
+              }
+            />
 
-          {/* <ProvideRound> */}
-          {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
-          {/* <ProtectedRoute exact path="/history" component={History} />
+            {/* <ProvideRound> */}
+            {/* <ProtectedRoute exact path="/dashboard" component={Dashboard} /> */}
+            {/* <ProtectedRoute exact path="/history" component={History} />
               <ProtectedRoute path="/create-round" component={CreateBatch} />
               <ProtectedRoute path="/invitations" component={Invitations} />
               <ProtectedRoute path="/register-user" component={RegisterUser} />
               <ProtectedRoute path="/round-details" component={RoundDetails} />
               <ProtectedRoute path="/payment" component={Payment} /> */}
-          {/* </ProvideRound> */}
+            {/* </ProvideRound> */}
 
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/login" />} />
+          </Routes>
+        </WalletProvider>
       </AuthProvider>
     </ConfigProvider>
   );

@@ -4,9 +4,9 @@ import { FormattedMessage } from "react-intl";
 
 import styles from "./index.module.scss";
 
-const Loader = ({ loadingMessage }) => (
+const Loader = ({ loadingMessage = "infoLoader.defaultLoadingMessage" }) => (
   <div className={styles.Loader}>
-    <CubeSpinner frontColor="#F58F98" size={30} />
+    <CubeSpinner loading frontColor="#F58F98" size={30} />
     <p>
       {" "}
       <FormattedMessage id={loadingMessage} />

@@ -110,7 +110,7 @@ export function RoundCard({
         <div>
           {loading && (
             <div className={styles.RoundCardLoader}>
-              <CubeSpinner frontColor="#F58F98" size={20} />
+              <CubeSpinner loading frontColor="#F58F98" size={20} />
               <span>Espere...</span>
             </div>
           )}

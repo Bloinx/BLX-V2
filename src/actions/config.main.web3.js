@@ -27,9 +27,7 @@ export default async function config(networkSelected) {
       timeout: 10000,
     });
 
-    const web3Provider = new Web3(
-      window?.web3?.currentProvider || httpProvider
-    );
+    const web3Provider = new Web3(window.ethereum || httpProvider);
 
     const ABI = selectContractABI(networkSelected);
     const contractAddress = selectContractAddress(networkSelected);

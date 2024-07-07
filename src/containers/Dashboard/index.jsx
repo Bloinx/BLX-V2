@@ -15,6 +15,7 @@ import NotFoundPlaceholder from "../../components/NotFoundPlaceholder";
 // import { MainContext } from "../../providers/provider";
 import { CardDashboard } from "./CardDashboard";
 import Loader from "../../components/Loader";
+import { useWallet } from "../../context/WalletContext";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -27,8 +28,10 @@ function Dashboard() {
   //   setLoadingRounds,
   // } = useRoundContext();
   const [loading, setLoading] = useState(false);
-  // const { currentAddress, wallet, currentProvider } = useContext(MainContext);
+  // const { currentAddress, walletName, currentProvider } = useContext(MainContext);
   const intl = useIntl();
+  const { setProvider, provider, accountData, chainId, walletName } =
+    useWallet();
 
   const goToCreate = () => {
     navigate("/create-round");
@@ -40,7 +43,7 @@ function Dashboard() {
 
   const handleStartRound = (roundId) => {
     setLoading(true);
-    // APISetStartRound(roundId, wallet, currentProvider)
+    // APISetStartRound(roundId, walletName, currentProvider)
     //   .then((receipt) => {
     //     Modal.success({
     //       title: `${intl.formatMessage({
@@ -51,7 +54,7 @@ function Dashboard() {
     //       })}`,
     //     });
     //     setLoading(false);
-    //     handleGetRounds(currentAddress, currentProvider, wallet).then(() => {
+    //     handleGetRounds(currentAddress, currentProvider, walletName).then(() => {
     //       setLoadingRounds(false);
     //     });
     //   })
@@ -198,7 +201,11 @@ function Dashboard() {
     );
   };
 
-  if (wallet === null || currentAddress === null || currentProvider === null) {
+  if (
+    walletName === null ||
+    accountData.originalAddress === null ||
+    provider === null
+  ) {
     return <Placeholder />;
   }
 

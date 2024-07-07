@@ -65,7 +65,6 @@ export function AuthProvider({ children }) {
   }, [state.loading, state.session, navigate]);
 
   const login = async (userEmail, pass) => {
-    console.log(userEmail, pass);
     try {
       dispatch({ type: "LOADING", payload: true });
 

@@ -24,7 +24,7 @@ function Wallets() {
   //   setContractInstance,
   //   setWallet,
   // } = useContext(MainContext);
-  const { connectWallet, provider, accountData } = useWallet();
+  const { connectWallet, provider, accountData, setAccountData } = useWallet();
 
   const [networkSelected, setNetworkSelected] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -37,7 +37,7 @@ function Wallets() {
   useEffect(() => {
     const data = localStorage.getItem("user_address");
     if (data) {
-      const parseData = JSON.parse(localStorage.getItem("user_address"));
+      const parseData = JSON.parse(data);
       setNetworkSelected(parseData.chainId);
       connectWallet(parseData.name, NETWORKS[parseData.chainId]);
     }
@@ -46,11 +46,7 @@ function Wallets() {
   const connectMMWallet = async () => {
     try {
       setLoading(true);
-      await connectWallet(
-        "Metamask",
-        NETWORKS[networkSelected],
-        setAccountData
-      );
+      await connectWallet("Metamask", NETWORKS[networkSelected]);
       await config(networkSelected);
       setLoading(false);
       handleToggleDrawer();
@@ -65,7 +61,7 @@ function Wallets() {
   const connectWalletConnect = async () => {
     try {
       setLoading(true);
-      await connect("walletconnect", NETWORKS[networkSelected]);
+      await connectWallet("walletconnect", NETWORKS[networkSelected]);
       // setAccountData({
       //   publicAddress: userWallet(),
       //   originalAdress: await account(),

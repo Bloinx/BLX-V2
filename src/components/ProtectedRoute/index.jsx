@@ -8,7 +8,7 @@ function ProtectedRoute({ element }) {
 
   if (loading) {
     // You can return a loading spinner here if needed
-    return <Loader></Loader>;
+    return <Loader loadingMessage="infoLoader.dashboard"></Loader>;
   }
 
   return session ? element : <Navigate to="/login" />;
