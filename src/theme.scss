@@ -1,0 +1,26 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&display=swap");
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif;
+}
+
+$pink: #f58f98;
+$pink-strong: #90525a;
+$black: #121212;
+$gray: #2b2d33;
+$gray-light: #c4c4c4;
+$blue-strong: #233447;
+
+.ant-form-item-label > label {
+  color: white !important;
+}
+
+.ant-form-item-label > label .ant-form-item-optional {
+  color: #a9a8a8 !important;
+}
+
+.ant-card-body {
+  padding: 10px !important;
+}

@@ -1,0 +1,413 @@
+{
+  "navAside": {
+    "dashboard": "My Rounds",
+    "history": "History",
+    "createbatch": "Create Round",
+    "registerpay": "Payments",
+    "batchDetails": "Details",
+    "logout": "Logout",
+    "docs": "Tutorials"
+  },
+  "dashboardPage": {
+    "title": "My Rounds",
+    "subtitle": "Invitations to Rounds",
+    "roundCaption": "Start your saving circle with your friends or family now.",
+    "table": {
+      "name": "Name",
+      "address": "Contract Address",
+      "startDate": "Start",
+      "participants": "Paritipants",
+      "liquidity": "Liquidity",
+      "status": "Status"
+    },
+    "modal": {
+      "title": "Select Network"
+    },
+    "functions": {
+      "handleStartRound": {
+        "success": {
+          "title": "Round started successfully",
+          "content": "Please check."
+        },
+        "error": {
+          "title": "Error when activating start the round",
+          "content": "Please verify that your wallet is active and try again."
+        }
+      },
+      "handlePayRound": {
+        "APIGetFuturePayments": {
+          "success": {
+            "content": "Congratulations! You have completed all your payments"
+          },
+          "error": {
+            "title": "Error",
+            "content": "Error obtaining your payment information."
+          }
+        },
+        "APISetAddPayment": {
+          "success": {
+            "title": "Correct payment"
+          },
+          "error": {
+            "reject": "Payment canceled by user",
+            "title": "Failed to make payment"
+          }
+        }
+      },
+      "handleWithdrawRound": {
+        "success": {
+          "title": "Correct withdrawal",
+          "content": "The round withdrawal has been successfully completed."
+        },
+        "error": {
+          "title": "Error occurred in withdrawal.",
+          "content": "We were unable to make the withdrawal. Please try again later."
+        }
+      },
+      "endRound": {
+        "success": {
+          "title": "Round is about to finish",
+          "content": "End the round and withdraw your money",
+          "buttonText": "End round"
+        }
+      },
+      "handleButton": {
+        "ON_REGISTER_STAGE_ADMIN": {
+          "text": "Start",
+          "withdrawText": "Withdraw"
+        },
+        "ON_REGISTER_STAGE": {
+          "text": "Pending",
+          "withdrawText": "Withdraw"
+        },
+        "ON_ROUND_ACTIVE": {
+          "withdrawText": "Withdraw and End Round",
+          "withdrawTextElse": "Withdraw"
+        },
+        "ON_ROUND_FINISHED": {
+          "text": "Completed",
+          "withdrawText": "Completed"
+        },
+        "ON_EMERGENCY_STAGE": {
+          "text": "Completed",
+          "withdrawText": "Completed"
+        }
+      }
+    },
+    "paymentStatusText": {
+      "payments_on_time": "Advance payment",
+      "payments_advanced": "Advance another payment",
+      "payments_late": "Pay",
+      "payments_done": "Completed"
+    }
+  },
+  "historyPage": {
+    "title": "My Round's history",
+    "subtitle": "My Invitations' history",
+    "roundCaption": "Start your saving circle with your friends or family now.",
+    "table": {
+      "name": "Name",
+      "address": "Contract Address",
+      "startDate": "Start",
+      "participants": "Participants",
+      "liquidity": "Liquidity",
+      "status": "Status"
+    }
+  },
+  "createRound": {
+    "title": "Create new round",
+    "titleConfirm": "Customize your round",
+    "titleReceipt": "Pay security deposit",
+    "labels": {
+      "payPerRound": "Amount to pay per round",
+      "tokens": "Type of token",
+      "rewards": "You will receive",
+      "amount": "Each participant will pay",
+      "receiptAmount": "You will receive",
+      "roundTime": "Duration time per round",
+      "terms": "I fully understand how the security deposit works",
+      "warnings": {
+        "jMXNT": "Token will be removed soon",
+        "tXOC": "Token will be available soon"
+      }
+    },
+    "form": {
+      "label": {
+        "participants": "Number of participants",
+        "amount": "Amount per period",
+        "periodicity": "Duration of the round",
+        "periodicityOptions": {
+          "weekly": "Weekly",
+          "biweekly": "Biweekly",
+          "monthly": "Monthly"
+        },
+        "name": "Name of the Round",
+        "motivation": "Personal motivation",
+        "turn": "Turn to receive the round"
+      },
+      "placeholder": {
+        "batchName": "Name of round"
+      }
+    },
+    "actions": {
+      "registerMe": "Select your turn",
+      "payGuarantee": "Create round",
+      "chooseTurn": "Choose your turn in the round",
+      "continue": "Continue"
+    }
+  },
+  "payments": {
+    "wallet": {
+      "title": "Digital wallet",
+      "description": "Please enter your wallet from the navigation bar"
+    },
+    "round": {
+      "title": "Payment of round",
+      "labels": {
+        "latePayment": "Late payment",
+        "guaranteePayment": "Guarantee payment",
+        "roundPayment": "Round payment",
+        "networkCommission": "Network commission",
+        "totalReceivable": "Total receivable"
+      }
+    },
+    "details": {
+      "title": "Payment Details",
+      "subtitle": "You are about to deposit:",
+      "securityDeposit": "Security Deposit (refundable)",
+      "serviceFee": "Service Fee"
+    }
+  },
+  "invitations": {
+    "title": "Invitations",
+    "description": "Please enter the emails of all your guests for this round.",
+    "caption": "** Press Enter to add each email **",
+    "form": {
+      "label": {
+        "emails": "Add the emails"
+      },
+      "placeholder": {
+        "emails": "Email"
+      }
+    },
+    "functions": {
+      "handleSendEmails": {
+        "success": {
+          "title": "Invitations sent successfully",
+          "content": "Please check."
+        },
+        "error": {
+          "title": "Error when sending invitations",
+          "content": "Please verify that your wallet is active and try again."
+        }
+      }
+    }
+  },
+  "roundCardInfo": {
+    "roundAddr": "Round ",
+    "turn": "Turn ",
+    "myTurn": "My turn"
+  },
+  "commons": {
+    "buttons": {
+      "next": "Next",
+      "back": "Back",
+      "continue": "Continue",
+      "send": "Send",
+      "end": "End",
+      "sendAndEnd": "Send and End"
+    }
+  },
+  "infoLoader": {
+    "roundPage": "Loading round's info...",
+    "page": "Loading payment's info...",
+    "approve": "Approving transaction...",
+    "payment": "Waiting for transaction...",
+    "dashboard": "Loading dashboard...",
+    "history": "Loading history..."
+  },
+  "infoLabels": {
+    "withoutWallet": "No Wallet found",
+    "connectWalletMessage": "Please connect your wallet to continue",
+    "withoutInfo": "Without info to show",
+    "createRoundMessage": "Please create a round",
+    "guaranteeInfo": "What is a security deposit? This payment will be returned at the end of the round and it will be used in case you miss one of your committed payments. If you miss more than one payment, you can affect the return of the security deposit of other participants in your group.",
+    "waiting": "Please wait..."
+  },
+  "copyright": "Bloinx 2024 (c) All rights reserved.",
+  "login": {
+    "title": "Login",
+    "subtitle": "Don't have an account?",
+    "form": {
+      "label": {
+        "email": "Email",
+        "password": "Password"
+      },
+      "validation": {
+        "email": "Email is not valid",
+        "minlength": "Password must be at least 6 characters long",
+        "onFail": "Email or password is not valid"
+      }
+    },
+    "actions": {
+      "login": "Login",
+      "register": "Register",
+      "forgotPassword": "Forgot password?"
+    }
+  },
+  "signup": {
+    "title": "Sign up",
+    "subtitle": "You have an account?",
+    "form": {
+      "input": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Your email",
+          "error": {
+            "required": "Email is required",
+            "type": "Email is not valid"
+          }
+        },
+        "username": {
+          "label": "Username",
+          "placeholder": "Your username",
+          "error": {
+            "required": "Username is required",
+            "whitespace": "Username is not valid"
+          }
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Your password",
+          "error": {
+            "required": "Password is required",
+            "minlength": "Password must be at least 6 characters long"
+          }
+        },
+        "confirmPassword": {
+          "label": "Confirm password",
+          "placeholder": "Confirm your password",
+          "error": {
+            "required": "Confirm password is required",
+            "notEqual": "Passwords do not match"
+          }
+        },
+        "age": {
+          "label": "Age",
+          "placeholder": "Your age",
+          "error": {
+            "required": "Age is required",
+            "type": "Your age has to be a number.",
+            "min": "You have to be at least 18 years old.",
+            "max": "You have to be at most 130 years old."
+          }
+        },
+        "gender": {
+          "label": "Gender",
+          "options": {
+            "option1": "Male",
+            "option2": "Female",
+            "option3": "Other"
+          },
+          "required": "optional"
+        }
+      }
+    },
+    "actions": {
+      "submit": "Sign up",
+      "login": "Login"
+    }
+  },
+  "ForgotPass": {
+    "title": "Reset your password",
+    "subtitle": "Enter your email and we'll send you a link to reset your password",
+    "form": {
+      "label": {
+        "email": "Email"
+      },
+      "validation": {
+        "onFail": "Oops, something went wrong."
+      }
+    },
+    "actions": {
+      "reset": "Reset",
+      "register": "Register",
+      "login": "Login"
+    }
+  },
+  "logout": {
+    "text": "Logout..."
+  },
+  "registerUser": {
+    "functions": {
+      "handlerOnSubmit": {
+        "warning": {
+          "title": "No wallet found",
+          "content": "Please connect your wallet to continue"
+        },
+        "error": {
+          "title": "Error when registering user",
+          "content": "Please verify that your wallet is active and try again."
+        },
+        "success": {
+          "title": "Register",
+          "content": "Congrats! You have successfully registered for the round."
+        }
+      }
+    }
+  },
+  "roundDetails": {
+    "contractID": "Contract ID",
+    "status": "Status",
+    "total": "Total",
+    "participants": "Participants",
+    "payment": "Payment",
+    "header": "Invitations",
+    "invitationTitle": "Invitations sent"
+  },
+  "updatePass": {
+    "title": "Reset your password",
+    "notification": "Session expired",
+    "buttonText": "Reset password",
+    "form": {
+      "label": {
+        "password": "Password",
+        "confirmPassword": "Confirm password"
+      },
+      "placeholder": {
+        "password": "Your password",
+        "confirmPassword": "Confirm your password"
+      },
+      "validation": {
+        "required": "Password is required",
+        "requiredConfirm": "Confirm password is required",
+        "minlength": "Password must be at least 6 characters long",
+        "notEqual": "Passwords do not match"
+      }
+    },
+    "functions": {
+      "updatePassword": {
+        "onFailure": {
+          "title": "Ups!",
+          "text": "Something went wrong"
+        },
+        "onSuccess": {
+          "title": "Success!",
+          "text": "Password updated successfully"
+        }
+      }
+    },
+    "actions": {
+      "subtitle": "You have an account?",
+      "login": "Login"
+    }
+  },
+  "wallets": {
+    "title": "My Wallet",
+    "subtitle": "Choose your Wallet within Metamask",
+    "subtitleValora": "Choose your Wallet within Valora",
+    "actions": {
+      "connect": "Connect Wallet"
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-react",
+  "name": "blxv2",
   "version": "1.4.0",
-  "type":"module",
+  "type": "module",
   "scripts": {
     "start": "vite --port 3000 --open",
     "dev": "vite --port 3000 --open",
@@ -10,14 +10,36 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@metamask/detect-provider": "^2.0.0",
+    "@supabase/supabase-js": "^2.43.1",
+    "@tanstack/react-query": "^5.50.1",
+    "@web3modal/wagmi": "^5.0.6",
+    "antd": "^5.17.0",
+    "axios": "^1.6.8",
+    "decimal.js": "^10.4.3",
+    "ethers": "^6.12.1",
+    "formik": "^2.4.6",
+    "moment": "^2.30.1",
+    "prettier": "^3.2.5",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-intl": "^6.6.6",
+    "react-router-dom": "^6.23.1",
+    "react-spinners-kit": "^1.9.1",
+    "viem": "^2.17.2",
+    "wagmi": "^2.10.9",
+    "web3": "1.10"
   },
   "devDependencies": {
+    "@formatjs/ts-transformer": "^3.13.14",
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^14.1.2",
     "@vitejs/plugin-react": "^4.2.1",
     "jsdom": "^23.0.1",
+    "sass": "^1.77.1",
     "vite": "^5.0.8",
     "vitest": "^1.1.1"
   }
