@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { supabase } from "../supabaseClient"; // Asegúrate de tener este cliente configurado
+import { supabase } from "../supabaseClient"; 
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -58,9 +58,7 @@ export function AuthProvider({ children }) {
     if (state.loading === false) {
       if (state.session) {
         navigate("/dashboard");
-      } else {
-        navigate("/login");
-      }
+      } 
     }
   }, [state.loading, state.session, navigate]);
 

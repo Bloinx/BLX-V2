@@ -21,6 +21,7 @@ import "./App.scss";
 // import { ProvideAuth } from "./hooks/useAuth"; //MIGRANDO....
 import { AuthProvider } from "./context/AuthContext";
 import { WalletProvider } from "./context/WalletContext";
+import { Web3ModalProvider } from "./context/Web3ModalProvider";
 
 import ForgotPass from "./containers/ForgotPass";
 import UpdatePass from "./containers/UpdatePass";
@@ -40,6 +41,7 @@ function App() {
       }}
     >
       <AuthProvider>
+      <Web3ModalProvider>
         <WalletProvider>
           <Routes>
             <Route path="/login" element={<Login />} />
@@ -71,6 +73,7 @@ function App() {
             <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </WalletProvider>
+        </Web3ModalProvider>
       </AuthProvider>
     </ConfigProvider>
   );

@@ -33,5 +33,10 @@ export const DrawerStyled = styled(Drawer)`
   }
   .ant-drawer-body {
     padding: 0;
+    background-color: #2b2d33;
+  }
+  .ant-drawer-header {
+    padding: 0;
+    background-color: #2b2d33;
   }
 `;
