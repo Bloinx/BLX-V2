@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { supabase } from "../supabaseClient"; 
+import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
     if (state.loading === false) {
       if (state.session) {
         navigate("/dashboard");
-      } 
+      }
     }
   }, [state.loading, state.session, navigate]);
 
@@ -131,7 +131,7 @@ export function AuthProvider({ children }) {
       } else {
         onSuccess();
       }
-      console.log("Reset password email sent:", data);
+      // console.log("Reset password email sent:", data);
     } catch (error) {
       onFailure();
       console.error("ResetPassword error:", error.message);

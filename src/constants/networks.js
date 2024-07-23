@@ -48,4 +48,8 @@ if (process.env.NODE_ENV === "production") {
 
 const NETWORKS = networks;
 
+export function isNetworkValid(selectedNetworkId) {
+  return NETWORKS.hasOwnProperty(selectedNetworkId);
+}
+
 export default NETWORKS;
