@@ -20,7 +20,8 @@ export function WalletProvider({ children }) {
   const { disconnect } = useDisconnect();
 
   const getDefaultChain = () => {
-    return process.env.NODE_ENV === "production" ? celo : celoAlfajores;
+    // return process.env.NODE_ENV === "production" ? celo : celoAlfajores;
+    return celoAlfajores;
   };
 
   useEffect(() => {
@@ -33,8 +34,8 @@ export function WalletProvider({ children }) {
     const handleNetworkSwitch = async () => {
       const provider = await detectEthereumProvider();
       if (provider && address) {
-        const chainId = await provider.request({ method: "eth_chainId" });
-
+        const hexChainId = await provider.request({ method: "eth_chainId" });
+        const chainId = parseInt(hexChainId, 16);
         if (!isNetworkValid(chainId)) {
           try {
             await provider.request({

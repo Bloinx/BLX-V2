@@ -18,17 +18,17 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains =
-  process.env.NODE_ENV === "production"
-    ? [celo, polygon]
-    : [celoAlfajores, polygonMumbai];
+const chains = [celoAlfajores, polygonMumbai];
+// process.env.NODE_ENV === "production"
+//   ? [celo, polygon]
+//   : [celoAlfajores, polygonMumbai];
 
 const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata });
 
 createWeb3Modal({
   wagmiConfig,
   projectId,
-  allowUnsupportedChain: false,
+  // allowUnsupportedChain: false,
 });
 
 export function Web3ModalProvider({ children }) {

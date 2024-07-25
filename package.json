@@ -20,6 +20,7 @@
     "@web3modal/ui": "^5.0.7",
     "@web3modal/wagmi": "^5.0.7",
     "antd": "^5.17.0",
+    "antd-css-utilities": "^2.1.0",
     "axios": "^1.6.8",
     "decimal.js": "^10.4.3",
     "ethers": "^6.13.1",

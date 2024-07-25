@@ -56,8 +56,8 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     if (state.loading === false) {
-      if (state.session) {
-        navigate("/dashboard");
+      if (!state.session) {
+        navigate("/login");
       }
     }
   }, [state.loading, state.session, navigate]);

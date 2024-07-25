@@ -1,4 +1,4 @@
-import { Button, Drawer } from "antd";
+import { Button, Drawer, Slider } from "antd";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
@@ -38,5 +38,32 @@ export const DrawerStyled = styled(Drawer)`
   .ant-drawer-header {
     padding: 0;
     background-color: #2b2d33;
+  }
+`;
+
+export const SliderStyled = styled(Slider)`
+  .ant-slider-rail {
+    background-color: white;
+  }
+
+  .ant-slider-track {
+    background-color: transparent !important;
+  }
+  .ant-slider-handle {
+    &:hover {
+      box-shadow: none !important;
+    }
+    &:focus {
+      box-shadow: none !important;
+    }
+  }
+  &:hover .ant-slider-rail {
+    background-color: white !important;
+  }
+  &:hover .ant-slider-track {
+    background-color: transparent !important;
+  }
+  &:hover .ant-slider-handle {
+    box-shadow: none !important;
   }
 `;

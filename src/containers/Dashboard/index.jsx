@@ -12,7 +12,7 @@ import Placeholder from "../../components/Placeholder";
 import NotFoundPlaceholder from "../../components/NotFoundPlaceholder";
 // import { useRoundContext } from "../../contexts/RoundsContext";
 
-// import { MainContext } from "../../providers/provider";
+// import { MainContext } from "../../providers/selectedNetworkId";
 import { CardDashboard } from "./CardDashboard";
 import Loader from "../../components/Loader";
 import { useWallet } from "../../context/WalletContext";
@@ -30,7 +30,7 @@ function Dashboard() {
   const [loading, setLoading] = useState(false);
   // const { currentAddress, walletName, currentProvider } = useContext(MainContext);
   const intl = useIntl();
-  const { setProvider, provider, accountData, chainId, walletName } =
+  const { setProvider, selectedNetworkId, accountData, chainId, walletName } =
     useWallet();
 
   const goToCreate = () => {
@@ -201,11 +201,7 @@ function Dashboard() {
     );
   };
 
-  if (
-    walletName === null ||
-    accountData.originalAddress === null ||
-    provider === null
-  ) {
+  if (accountData.originalAddress === null || selectedNetworkId === null) {
     return <Placeholder />;
   }
 
