@@ -14,16 +14,23 @@ import styles from "./index.module.scss";
 import { periodicityOptions, participantsOptions } from "./constants";
 import { confirmForm } from "./validations";
 
-function Form({ form, setForm, tokenSelected, setTokenSelected, tokens }) {
+function Form({
+  form,
+  setForm,
+  tokenSelected,
+  setTokenSelected,
+  tokens,
+  handleSubmit,
+}) {
   const navigate = useNavigate();
 
-  const handlerOnSubmit = (values) => {
-    setForm({
-      ...form,
-      ...values,
-    });
-    navigate("/create-round/confirm");
-  };
+  // const handlerOnSubmit = (values) => {
+  //   setForm({
+  //     ...form,
+  //     ...values,
+  //   });
+  // navigate(confirm...)
+  // };
 
   const getOptions = () => {
     return tokens?.map((token) => {
@@ -46,7 +53,7 @@ function Form({ form, setForm, tokenSelected, setTokenSelected, tokens }) {
           token: form.token,
         }}
         validate={confirmForm}
-        onSubmit={handlerOnSubmit}
+        onSubmit={handleSubmit}
       >
         {(props) => {
           const {

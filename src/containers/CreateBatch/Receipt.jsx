@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage } from "react-intl";
 import { Modal } from "antd";
@@ -15,31 +15,29 @@ import {
   periodicityOptions,
   paymentTime,
 } from "./constants";
-// import { MainContext } from "../../providers/provider";
 import { useWallet } from "../../context/WalletContext";
-// import { useRoundContext } from "../../contexts/RoundsContext";
+import { useFormContext } from "../../context/FormCreateRoundContext";
+import { useAuth } from "../../context/AuthContext";
 
-function Receipt({ form, setForm, tokenSelected }) {
+function Receipt() {
+  const { form, setForm, tokenSelected } = useFormContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { handleGetRounds } = useRoundContext();
-  // const { address, wallet, selectedNetworkId } = useContext(MainContext);
-  const { selectedNetworkId, address } = useWallet();
+  const { selectedNetworkId, accountData } = useWallet();
+  const { session } = useAuth();
 
   const refreshRounds = () => {
-    // handleGetRounds(address, selectedNetworkId, wallet);
     navigate("/dashboard");
   };
-  const handlerOnSubmit = (values) =>
+
+  const handlerOnSubmit = async (values) => {
     setForm({
       ...form,
       ...values,
       isComplete: true,
     });
 
-  useEffect(() => {
-    let cancel = false;
-    if (form.isComplete && !address) {
+    if (!accountData.originalAddress) {
       Modal.warning({
         title: "Wallet no encontrada",
         content: "Por favor conecta tu wallet antes de continuar.",
@@ -48,60 +46,48 @@ function Receipt({ form, setForm, tokenSelected }) {
         ...form,
         isComplete: false,
       });
+      return;
     }
-    if (form.isComplete && address && !cancel) {
-      setLoading(true);
-      APISetCreateRound({
-        warranty: form.amount,
-        saving: form.amount,
-        groupSize: form.participants,
-        payTime: paymentTime[form.periodicity],
+
+    setLoading(true);
+
+    try {
+      await APISetCreateRound({
+        warranty: form?.amount,
+        saving: form?.amount,
+        groupSize: form?.participants,
+        payTime: paymentTime[form?.periodicity],
         tokenSelected,
         isPublic: false,
-        address,
-        wallet,
-        selectedNetworkId,
-      })
-        .then(() => {
-          setLoading(false);
-          setForm(INITIAL_FORM_VALUES);
-          Modal.success({
-            title: "Ronda creada con éxito",
-            content:
-              "Para continuar, paga el depósito de garantía e invita a las personas que quieras!",
-            onOk: refreshRounds,
-            okCancel: refreshRounds,
-          });
-        })
-        .catch((err) => {
-          setForm({
-            ...form,
-            isComplete: false,
-          });
-          setLoading(false);
-          Modal.error({
-            title: "Oops!",
-            content:
-              "¿Ya no quieres crear la ronda? Ocurrió un problema al crear la ronda.",
-            onOk: refreshRounds,
-            okCancel: refreshRounds,
-          });
-        });
+        currentAddress: accountData.originalAddress,
+        currentProvider: selectedNetworkId,
+        session,
+      });
+
+      setLoading(false);
+      setForm(INITIAL_FORM_VALUES);
+      Modal.success({
+        title: "Ronda creada con éxito",
+        content:
+          "Para continuar, paga el depósito de garantía e invita a las personas que quieras!",
+        onOk: refreshRounds,
+        okCancel: refreshRounds,
+      });
+    } catch (err) {
+      setForm({
+        ...form,
+        isComplete: false,
+      });
+      setLoading(false);
+      Modal.error({
+        title: "Oops!",
+        content:
+          "¿Ya no quieres crear la ronda? Ocurrió un problema al crear la ronda.",
+        onOk: refreshRounds,
+        okCancel: refreshRounds,
+      });
     }
-    return () => {
-      cancel = true;
-    };
-  }, [
-    form.isComplete,
-    address,
-    wallet,
-    form,
-    setForm,
-    history,
-    selectedNetworkId,
-    refreshRounds,
-    tokenSelected,
-  ]);
+  };
 
   return (
     <>
@@ -114,21 +100,19 @@ function Receipt({ form, setForm, tokenSelected }) {
               <div>
                 <FormattedMessage id="createRound.form.label.participants" />
               </div>
-              <div>{form.participants}</div>
+              <div>{form?.participants}</div>
             </div>
             <div className={styles.ReceiptCardItem}>
               <div>
                 <FormattedMessage id="createRound.labels.amount" />
               </div>
-              <div>{`${form.amount} ${tokenSelected}`}</div>
+              <div>{`${form?.amount} ${tokenSelected}`}</div>
             </div>
             <div className={styles.ReceiptCardItem}>
               <div>
                 <FormattedMessage id="createRound.labels.receiptAmount" />
               </div>
-              <div>{`${
-                form.amount * (form.participants - 1)
-              } ${tokenSelected}`}</div>
+              <div>{`${form?.amount * (form?.participants - 1)} ${tokenSelected}`}</div>
             </div>
             <div className={styles.ReceiptCardItem}>
               <div>
@@ -137,8 +121,8 @@ function Receipt({ form, setForm, tokenSelected }) {
               <div>
                 {
                   periodicityOptions.find(
-                    (option) => option.value === form.periodicity
-                  ).label
+                    (option) => option.value === form?.periodicity
+                  )?.label
                 }
               </div>
             </div>
@@ -147,9 +131,9 @@ function Receipt({ form, setForm, tokenSelected }) {
           <ButtonOnlyOneStep
             loading={loading}
             label={<FormattedMessage id="createRound.actions.payGuarantee" />}
-            // disabled={!values.termsAndConditions || !isValid}
             type="submit"
-            onClick={handlerOnSubmit}
+            onClick={() => handlerOnSubmit({})}
+            disabled={loading}
           />
         </>
       )}

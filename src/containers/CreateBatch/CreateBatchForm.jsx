@@ -8,6 +8,7 @@ function CreateBatchForm({
   setTokenSelected,
   tokenSelected,
   tokens,
+  handleSubmit,
 }) {
   return (
     <BatchForm
@@ -16,6 +17,7 @@ function CreateBatchForm({
       setTokenSelected={setTokenSelected}
       tokenSelected={tokenSelected}
       tokens={tokens}
+      handleSubmit={handleSubmit}
     />
   );
 }

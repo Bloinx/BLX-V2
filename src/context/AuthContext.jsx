@@ -34,24 +34,24 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { data: session } = supabase.auth.getSession();
-    dispatch({
-      type: "SESSION_UPDATED",
-      payload: { session: session, user: session?.user },
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    const getSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       dispatch({
         type: "SESSION_UPDATED",
-        payload: { session: session, user: session?.user },
+        payload: { session, user: session?.user },
       });
-    });
 
-    return () => {
-      subscription.unsubscribe();
+      supabase.auth.onAuthStateChange((_event, session) => {
+        dispatch({
+          type: "SESSION_UPDATED",
+          payload: { session, user: session?.user },
+        });
+      });
     };
+
+    getSession();
   }, []);
 
   useEffect(() => {
@@ -76,7 +76,7 @@ export function AuthProvider({ children }) {
       if (error) throw error;
       dispatch({
         type: "SESSION_UPDATED",
-        payload: { session: session, user: user },
+        payload: { session, user },
       });
     } catch (error) {
       console.log(error.error_description || error.message);
@@ -131,7 +131,6 @@ export function AuthProvider({ children }) {
       } else {
         onSuccess();
       }
-      // console.log("Reset password email sent:", data);
     } catch (error) {
       onFailure();
       console.error("ResetPassword error:", error.message);

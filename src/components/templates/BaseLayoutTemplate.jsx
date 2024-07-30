@@ -1,8 +1,9 @@
 import React from "react";
-import { ConfigProvider } from "antd";
+import { ConfigProvider, Form } from "antd";
 import { AuthProvider } from "../../context/AuthContext";
 import { WalletProvider } from "../../context/WalletContext";
 import { Web3ModalProvider } from "../../context/Web3ModalProvider";
+import { FormProvider } from "../../context/FormCreateRoundContext";
 
 import { IntlProvider } from "react-intl";
 
@@ -38,7 +39,10 @@ const BaseLayoutTemplate = ({ children }) => (
     >
       <AuthProvider>
         <Web3ModalProvider>
-          <WalletProvider>{children}</WalletProvider>
+          <WalletProvider>
+            {" "}
+            <FormProvider>{children}</FormProvider>{" "}
+          </WalletProvider>
         </Web3ModalProvider>
       </AuthProvider>
     </IntlProvider>

@@ -11,6 +11,7 @@ import { INITIAL_FORM_VALUES } from "./constants";
 import useToken from "../../hooks/useToken";
 
 import { useWallet } from "../../context/WalletContext";
+import { useFormContext } from "../../context/FormCreateRoundContext";
 
 // Define BatchForm component outside of CreateBatch
 // const CreateBatchForm = ({
@@ -37,28 +38,17 @@ import { useWallet } from "../../context/WalletContext";
 function CreateBatch() {
   const navigate = useNavigate();
   const baseUrl = "/create-batch";
-  const { selectedNetworkId } = useWallet();
-  const { tokens } = useToken(selectedNetworkId);
+  const { form, setForm, tokenSelected, setTokenSelected, tokens } =
+    useFormContext();
 
-  const getDefaultToken = (selectedNetworkId) => {
-    return selectedNetworkId === 137 || selectedNetworkId === 80001
-      ? "USDC"
-      : "cUSD";
+  const handleSubmit = (values) => {
+    setForm({
+      ...form,
+      ...values,
+    });
+    navigate("/create-round/confirm");
   };
 
-  const [tokenSelected, setTokenSelected] = useState(
-    getDefaultToken(selectedNetworkId)
-  );
-
-  useEffect(() => {
-    setTokenSelected(getDefaultToken(selectedNetworkId));
-  }, [selectedNetworkId]);
-
-  const [form, setForm] = useState(INITIAL_FORM_VALUES);
-  console.log("Rendering CreateBatch");
-  console.log("form:", form);
-  console.log("tokenSelected:", tokenSelected);
-  console.log("tokens:", tokens);
   return (
     <CreateBatchForm
       form={form}
@@ -66,6 +56,7 @@ function CreateBatch() {
       setTokenSelected={setTokenSelected}
       tokenSelected={tokenSelected}
       tokens={tokens}
+      handleSubmit={handleSubmit}
     />
 
     //     <CreateBatchReceipt

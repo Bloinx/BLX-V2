@@ -67,16 +67,14 @@ const router = createBrowserRouter([
             <ProtectedRoute element={<CreateBatch />} />
           </Markup>
         ),
-        children: [
-          {
-            path: "confirm",
-            element: (
-              <Markup>
-                <ProtectedRoute element={<CreateBatchReceipt />} />
-              </Markup>
-            ),
-          },
-        ],
+      },
+      {
+        path: "create-round/confirm",
+        element: (
+          <Markup>
+            <ProtectedRoute element={<CreateBatchReceipt />} />
+          </Markup>
+        ),
       },
       {
         path: "*",
@@ -87,27 +85,3 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-// function App() {
-//   return (
-//     <ConfigProvider
-//       theme={{
-//         token: {
-//           colorSuccess: "#F58F98",
-//           colorPrimary: "#F58F98",
-//           colorLink: "#F58F98",
-//           fontFamily: "Open Sans",
-//         },
-//       }}
-//     >
-//       <AuthProvider>
-//         <Web3ModalProvider>
-//           <WalletProvider>
-//             <Suspense fallback={<div>Loading...</div>}>
-//               <RouterProvider router={router} />
-//             </Suspense>
-//           </WalletProvider>
-//         </Web3ModalProvider>
-//       </AuthProvider>
-//     </ConfigProvider>
-//   );
-// }
