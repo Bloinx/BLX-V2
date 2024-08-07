@@ -35,6 +35,7 @@ const router = createBrowserRouter([
       </BaseLayoutTemplate>
     ),
     children: [
+      { index: true, element: <Navigate to="login" /> },
       { path: "login", element: <Login /> },
       {
         path: "logout",

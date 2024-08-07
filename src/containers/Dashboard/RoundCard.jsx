@@ -8,7 +8,7 @@ import styles from "./RoundCard.module.scss";
 import Stepper from "../../components/Stepper";
 import { formatAddress } from "../../utils/format";
 import logoIcon from "../../assets/icon.png";
-// import { getTokenSymbolByRound } from "../../api/utils/getTokenData";
+import { getTokenSymbolByRound } from "../../actions/utils";
 import { ButtonAction, LinkStyled } from "../../components/styles";
 
 export function RoundCard({
@@ -32,16 +32,16 @@ export function RoundCard({
 }) {
   const [tokenSymbol, setTokenSymbol] = useState("");
 
-  // useEffect(() => {
-  //   const getTokenSymbol = async () => {
-  //     const data = await getTokenSymbolByRound(tokenId);
-  //     return data;
-  //   };
+  useEffect(() => {
+    const getTokenSymbol = async () => {
+      const data = await getTokenSymbolByRound(tokenId);
+      return data;
+    };
 
-  //   getTokenSymbol().then((data) => {
-  //     setTokenSymbol(data);
-  //   });
-  // }, [tokenId]);
+    getTokenSymbol().then((data) => {
+      setTokenSymbol(data);
+    });
+  }, [tokenId]);
 
   const handleGetSteps = () => {
     const numGroup = Number(groupSize);
@@ -110,7 +110,7 @@ export function RoundCard({
         <div>
           {loading && (
             <div className={styles.RoundCardLoader}>
-              <CubeSpinner loading frontColor="#F58F98" size={20} />
+              <CubeSpinner frontColor="#F58F98" size={20} />
               <span>Espere...</span>
             </div>
           )}

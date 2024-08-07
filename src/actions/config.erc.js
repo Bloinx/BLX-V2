@@ -47,22 +47,3 @@ export async function configercToken(token, chainId) {
     return error;
   }
 }
-
-// export async function walletConnect(token, chainId) {
-//   try {
-//     const web3ModalProvider = await web3Modal.connect();
-//     const web3Provider = new ethers.providers.Web3Provider(web3ModalProvider);
-//     const signer = web3Provider.getSigner();
-//     const ABI = chainId === 42220 ? cUSD : usdc;
-//     const contract = new ethers.Contract(token, ABI, signer);
-
-//     const kit = newKitFromWeb3(web3Provider);
-//     kit.defaultAccount = await signer.getAddress();
-//     kit.defaultFeeCurrency = await kit.contracts.getStableToken();
-
-//     return contract;
-//   } catch (error) {
-//     console.error("Error connecting wallet:", error);
-//     return error;
-//   }
-// }

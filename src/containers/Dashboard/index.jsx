@@ -1,4 +1,5 @@
-import React, { useState, useContext } from "react";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
 import { Modal, Button, Flex } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate } from "react-router-dom";
@@ -6,44 +7,41 @@ import { useNavigate } from "react-router-dom";
 import RoundCard from "./RoundCard";
 import RoundCardNew from "./RoundCardNew";
 import PageHeader from "../../components/PageHeader";
+import PageSubHeader from "../../components/PageSubHeader";
 import styles from "./Dashboard.module.scss";
 // import APISetStartRound from "../../api/setStartRoundSupabase";
 import Placeholder from "../../components/Placeholder";
 import NotFoundPlaceholder from "../../components/NotFoundPlaceholder";
-// import { useRoundContext } from "../../contexts/RoundsContext";
-
-// import { MainContext } from "../../providers/selectedNetworkId";
+import { useRounds } from "../../context/RoundsContext";
+import { useWallet } from "../../context/WalletContext";
 import { CardDashboard } from "./CardDashboard";
 import Loader from "../../components/Loader";
-import { useWallet } from "../../context/WalletContext";
 
 function Dashboard() {
-  const navigate = useNavigate();
-  // const {
-  //   otherList,
-  //   handleGetRounds,
-  //   completeRoundList,
-  //   activeRounds,
-  //   loadingRounds,
-  //   setLoadingRounds,
-  // } = useRoundContext();
+  const history = useNavigate();
+  const {
+    otherList,
+    handleGetRounds,
+    completeRoundList,
+    activeRounds,
+    loadingRounds,
+    setLoadingRounds,
+  } = useRounds();
   const [loading, setLoading] = useState(false);
-  // const { currentAddress, walletName, currentProvider } = useContext(MainContext);
+  const { accountData, selectedNetworkId } = useWallet();
   const intl = useIntl();
-  const { setProvider, selectedNetworkId, accountData, chainId, walletName } =
-    useWallet();
 
   const goToCreate = () => {
-    navigate("/create-round");
+    history.push("/create-round");
   };
 
   const goToJoin = (roundKey) => {
-    navigate(`/register-user?roundId=${roundKey}`);
+    history.push(`/register-user?roundId=${roundKey}`);
   };
 
   const handleStartRound = (roundId) => {
     setLoading(true);
-    // APISetStartRound(roundId, walletName, currentProvider)
+    // APISetStartRound(roundId, wallet, currentProvider)
     //   .then((receipt) => {
     //     Modal.success({
     //       title: `${intl.formatMessage({
@@ -54,7 +52,7 @@ function Dashboard() {
     //       })}`,
     //     });
     //     setLoading(false);
-    //     handleGetRounds(currentAddress, currentProvider, walletName).then(() => {
+    //     handleGetRounds(currentAddress, currentProvider, wallet).then(() => {
     //       setLoadingRounds(false);
     //     });
     //   })
@@ -99,6 +97,29 @@ function Dashboard() {
         withdrawAction: null,
       };
     }
+    // if (stage === "ON_ROUND_ACTIVE") {
+    //   const payDisable = roundData.realTurn > roundData.groupSize;
+
+    //   return {
+    //     disable: payDisable,
+    //     text: paymentStatusText[roundData.paymentStatus],
+    //     action: () => handlePayRound(roundData.roundKey),
+    //     withdrawText:
+    //       roundData.realTurn >= roundData.groupSize && payDisable
+    //         ? `${intl.formatMessage({
+    //             id: "dashboardPage.functions.handleButton.ON_ROUND_ACTIVE.withdrawText",
+    //           })}`
+    //         : `${intl.formatMessage({
+    //             id: "dashboardPage.functions.handleButton.ON_ROUND_ACTIVE.withdrawTextElse",
+    //           })}`,
+    //     withdrawAction: () =>
+    //       handleWithdrawRound(
+    //         roundData.roundKey,
+    //         roundData.realTurn,
+    //         roundData.groupSize
+    //       ),
+    //   };
+    // }
     if (stage === "ON_ROUND_FINISHED") {
       return {
         disable: true,
@@ -129,6 +150,13 @@ function Dashboard() {
   };
 
   const contentDashboard = () => {
+    // if (loadingRounds) {
+    //   return (
+    //     <Flex align="center" justify="center" style={{ height: "400px" }}>
+    //       <Loader loadingMessage="infoLoader.dashboard" />
+    //     </Flex>
+    //   );
+    // }
     if (!completeRoundList?.length && !activeRounds?.length) {
       return (
         <Flex align="center" justify="center" style={{ height: "400px" }}>
@@ -143,7 +171,7 @@ function Dashboard() {
 
     return (
       <>
-        {currentAddress && (
+        {accountData.originalAddress && (
           <>
             {completeRoundList?.length > 0 &&
               completeRoundList?.map((round) => {
@@ -219,7 +247,104 @@ function Dashboard() {
           </Button>
         }
       />
-      {/* <div className={styles.RoundCards}>{contentDashboard()}</div> */}
+      <div className={styles.RoundCards}>
+        {/* {loadingRounds ? (
+          <Flex align="center" justify="center" style={{ height: "400px" }}>
+            <Loader loadingMessage="infoLoader.dashboard" />
+          </Flex>
+        ) : completeRoundList === null && activeRounds === null ? (
+          <NotFoundPlaceholder />
+        ) : (
+          <></>
+        )} */}
+        {contentDashboard()}
+        {/* {currentAddress &&
+          completeRoundList?.map((round) => {
+            if (round?.stage === "ON_REGISTER_STAGE" && round?.toRegister) {
+              return (
+                <RoundCardNew
+                  key={round.roundKey}
+                  fromInvitation={round.fromInvitation}
+                  fromEmail={round.fromEmail}
+                  onClick={() => goToJoin(round.roundKey)}
+                />
+              );
+            }
+            const { disable, text, action, withdrawText, withdrawAction } =
+              handleButton(round);
+            return (
+              <RoundCard
+                key={round.roundKey}
+                name={round.name}
+                groupSize={round.groupSize}
+                missingPositions={round.missingPositions}
+                contractKey={round.contract}
+                positionToWithdrawPay={round.positionToWithdrawPay}
+                turn={round.turn}
+                linkTo={`/round-details?roundId=${round.roundKey}`}
+                onClick={action}
+                buttonText={text}
+                withdrawButtonText={withdrawText}
+                buttonDisabled={disable}
+                loading={loading}
+                withdraw={round.withdraw}
+                onWithdraw={withdrawAction}
+                stage={round.stage}
+                saveAmount={round.saveAmount}
+                tokenId={round.tokenId}
+                byInvitation={false}
+              />
+            );
+          })}
+        {currentAddress !== null &&
+          activeRounds?.length > 0 &&
+          activeRounds.map((round) => (
+            <CardDashboard
+              key={round.roundKey}
+              contractKey={round.contract}
+              turn={round.turn}
+              groupSize={round.groupSize}
+              name={round.name}
+              positionToWithdrawPay={round.positionToWithdrawPay}
+              linkTo={`/round-details?roundId=${round.roundKey}`}
+              realTurn={round.realTurn}
+            />
+          ))} */}
+      </div>
+      {/* {otherList?.length && (
+        <PageSubHeader
+          title={<FormattedMessage id="dashboardPage.subtitle" />}
+        />
+      )} */}
+      {/* {currentAddress &&
+        otherList &&
+        otherList?.map((round) => {
+          const { disable, text, action, withdrawText, withdrawAction } =
+            handleButton(round);
+          return (
+            <RoundCard
+              key={round.roundKey}
+              name={round.name}
+              groupSize={round.groupSize}
+              missingPositions={round.missingPositions}
+              contractKey={round.contract}
+              positionToWithdrawPay={round.positionToWithdrawPay}
+              turn={round.turn}
+              linkTo={`/round-details?roundId=${round.roundKey}`}
+              onClick={action}
+              buttonText={text}
+              withdrawButtonText={withdrawText}
+              buttonDisabled={disable}
+              loading={loading}
+              withdraw={round.withdraw}
+              onWithdraw={withdrawAction}
+              stage={round.stage}
+              saveAmount={round.saveAmount}
+              tokenId={round.tokenId}
+              byInvitation
+            />
+          );
+        })} */}
     </>
   );
 }

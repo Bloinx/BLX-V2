@@ -1,5 +1,5 @@
 import React from "react";
-import { ConfigProvider, Form } from "antd";
+import { ConfigProvider } from "antd";
 import { AuthProvider } from "../../context/AuthContext";
 import { WalletProvider } from "../../context/WalletContext";
 import { Web3ModalProvider } from "../../context/Web3ModalProvider";
@@ -10,6 +10,7 @@ import { IntlProvider } from "react-intl";
 import flattenMessages from "../../utils/locales";
 import es from "../../locales/es.json";
 import en from "../../locales/en.json";
+import { RoundsProvider } from "../../context/RoundsContext";
 
 // import MainProvider from "./providers/provider";
 
@@ -40,8 +41,10 @@ const BaseLayoutTemplate = ({ children }) => (
       <AuthProvider>
         <Web3ModalProvider>
           <WalletProvider>
-            {" "}
-            <FormProvider>{children}</FormProvider>{" "}
+            <RoundsProvider>
+              {" "}
+              <FormProvider>{children}</FormProvider>{" "}
+            </RoundsProvider>
           </WalletProvider>
         </Web3ModalProvider>
       </AuthProvider>

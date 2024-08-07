@@ -7,7 +7,9 @@ import { FormattedMessage } from "react-intl";
 import styles from "./CardDashboard.module.scss";
 import { formatAddress } from "../../utils/format";
 import HeaderMainRound from "../../components/HeaderMainRound";
-import getTurnHeader from "../../utils/common";
+// import getTurnHeader from "../RoundDetails/utils";
+import ContractHeader from "./ContractHeader";
+import ProgressFormat from "./ProgressFormat";
 
 export function CardDashboard({
   name,
@@ -19,21 +21,14 @@ export function CardDashboard({
   positionToWithdrawPay,
   realTurn,
 }) {
-  const contractHeader = () => {
-    return (
-      <div className={styles.RoundCardContractAddress}>
-        <Typography.Text>
-          <FormattedMessage id="roundDetails.contractID" />
-        </Typography.Text>
-        <span> {formatAddress(contractKey)}</span>
-      </div>
-    );
-  };
-
   const getPercentage = () => {
     const percentage = (turn / groupSize) * 100;
     return percentage;
   };
+  const renderProgressFormat = () => (
+    <ProgressFormat turn={turn} realTurn={realTurn} groupSize={groupSize} />
+  );
+
   return (
     <div className={styles.RoundCard}>
       <div className={styles.RoundCardHeader}>
@@ -41,11 +36,9 @@ export function CardDashboard({
           <span>
             <FormattedMessage id="roundCardInfo.roundAddr" />
           </span>
-
           <Typography.Title level={4}>{name}</Typography.Title>
         </div>
-        {contractHeader()}
-        {/* {formatAddress(contractKey)} */}
+        <ContractHeader contractKey={contractKey} />
       </div>
       <div className={styles.RoundCardStats}>
         <Progress
@@ -53,25 +46,7 @@ export function CardDashboard({
           type="circle"
           percent={getPercentage()}
           strokeColor="#f58f98"
-          format={() => {
-            return (
-              <div className={styles.progressInfoContainer}>
-                {/* <span>
-                  {" "}
-                  <FormattedMessage id="roundCardInfo.turn" />
-                </span> */}
-                <HeaderMainRound
-                  turn={turn}
-                  realTurn={realTurn}
-                  groupSize={groupSize}
-                />
-                {/* <div className={styles.progressMainInfo}>
-                  <p>{Number(getTurnHeader(turn, realTurn, groupSize))}</p>
-                  <p>/{groupSize}</p>
-                </div> */}
-              </div>
-            );
-          }}
+          format={renderProgressFormat}
         />
         <div>
           <span>
@@ -80,7 +55,6 @@ export function CardDashboard({
           <Typography.Title level={1}>{positionToWithdrawPay}</Typography.Title>
         </div>
       </div>
-
       <div className={styles.RoundCardFooter}>
         <div style={{ width: "100%" }}>
           <Link to={linkTo}>
