@@ -115,6 +115,9 @@ export function RoundsProvider({ children }) {
 
   const handleGetRounds = async (address, selectedNetworkId) => {
     setLoadingRounds(true);
+    let tempList = null;
+    let tempInvitations = null;
+    let tempOtherRounds = null;
     if (user && address) {
       try {
         const [rounds, invitationsData, otherRoundsPosition] =
@@ -124,7 +127,7 @@ export function RoundsProvider({ children }) {
             APIGetOtherRounds({ userId: user.id }),
           ]);
 
-        await Promise.all([
+        [tempList, tempInvitations, tempOtherRounds] = await Promise.all([
           getRoundsData(rounds, user.id, address, selectedNetworkId),
           getRoundsByInvitationData(invitationsData, selectedNetworkId),
           getRoundsOtherData(
@@ -137,8 +140,15 @@ export function RoundsProvider({ children }) {
       } catch (error) {
         console.error("Failed to fetch or process rounds:", error);
       }
+      setRoundList(tempList || []);
+      setInvitationsList(tempInvitations || []);
+      setOtherList(tempOtherRounds || []);
+      setActiveRounds((prev) => prev || []);
+      setCompleteRoundList((prev) => prev || []);
     }
-    setLoadingRounds(false);
+    setCompleteRoundList((prev) => (prev === null ? [] : prev));
+    setActiveRounds((prev) => (prev === null ? [] : prev));
+    // setLoadingRounds(false);
   };
 
   useEffect(() => {
@@ -149,20 +159,15 @@ export function RoundsProvider({ children }) {
         ...(invitations || []),
         ...(otherRounds || []),
       ]);
+      setLoadingRounds(false);
     }
   }, [roundList, invitations, otherRounds]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (accountData.originalAddress && selectedNetworkId) {
-          await handleGetRounds(accountData.originalAddress, selectedNetworkId);
-        }
-      } catch (error) {
-        console.error("Error in fetchData useEffect:", error);
-      }
-    };
-    fetchData();
+    if (accountData.originalAddress && selectedNetworkId) {
+      console.log(accountData, selectedNetworkId);
+      handleGetRounds(accountData.originalAddress, selectedNetworkId);
+    }
   }, [accountData, selectedNetworkId]);
 
   return (

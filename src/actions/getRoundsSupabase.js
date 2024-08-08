@@ -346,7 +346,7 @@ export const getAll = async (userId, round) => {
     .select()
     .eq("idUser", userId)
     .eq("idRound", round?.id);
-  return data.length > 0 ? data[0] : null;
+  return data[0];
 };
 
 export default getRounds;
