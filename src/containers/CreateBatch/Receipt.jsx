@@ -18,15 +18,18 @@ import {
 import { useWallet } from "../../context/WalletContext";
 import { useFormContext } from "../../context/FormCreateRoundContext";
 import { useAuth } from "../../context/AuthContext";
+import { useRounds } from "../../context/RoundsContext";
 
 function Receipt() {
   const { form, setForm, tokenSelected } = useFormContext();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { selectedNetworkId, accountData } = useWallet();
+  const { handleGetRounds } = useRounds();
   const { session } = useAuth();
 
   const refreshRounds = () => {
+    handleGetRounds(accountData.originalAddress, selectedNetworkId);
     navigate("/dashboard");
   };
 

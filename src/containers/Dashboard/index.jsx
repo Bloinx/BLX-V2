@@ -9,7 +9,7 @@ import RoundCardNew from "./RoundCardNew";
 import PageHeader from "../../components/PageHeader";
 import PageSubHeader from "../../components/PageSubHeader";
 import styles from "./Dashboard.module.scss";
-// import APISetStartRound from "../../api/setStartRoundSupabase";
+import setStartRound from "../../actions/setStartRoundSupabase";
 import Placeholder from "../../components/Placeholder";
 import NotFoundPlaceholder from "../../components/NotFoundPlaceholder";
 import { useRounds } from "../../context/RoundsContext";
@@ -18,7 +18,7 @@ import { CardDashboard } from "./CardDashboard";
 import Loader from "../../components/Loader";
 
 function Dashboard() {
-  const history = useNavigate();
+  const navigate = useNavigate();
   const {
     otherList,
     handleGetRounds,
@@ -32,41 +32,43 @@ function Dashboard() {
   const intl = useIntl();
 
   const goToCreate = () => {
-    history.push("/create-round");
+    navigate("/create-round");
   };
 
   const goToJoin = (roundKey) => {
-    history.push(`/register-user?roundId=${roundKey}`);
+    navigate(`/register-user?roundId=${roundKey}`);
   };
 
-  const handleStartRound = (roundId) => {
+  const handleStartRound = (roundData) => {
     setLoading(true);
-    // APISetStartRound(roundId, wallet, currentProvider)
-    //   .then((receipt) => {
-    //     Modal.success({
-    //       title: `${intl.formatMessage({
-    //         id: "dashboardPage.functions.handleStartRound.success.title",
-    //       })}`,
-    //       content: `${intl.formatMessage({
-    //         id: "dashboardPage.functions.handleStartRound.success.content",
-    //       })}`,
-    //     });
-    //     setLoading(false);
-    //     handleGetRounds(currentAddress, currentProvider, wallet).then(() => {
-    //       setLoadingRounds(false);
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     Modal.warning({
-    //       title: `${intl.formatMessage({
-    //         id: "dashboardPage.functions.handleStartRound.error.title",
-    //       })}`,
-    //       content: `${intl.formatMessage({
-    //         id: "dashboardPage.functions.handleStartRound.error.content",
-    //       })}`,
-    //     });
-    //     setLoading(false);
-    //   });
+    setStartRound(accountData.originalAddress, roundData, selectedNetworkId)
+      .then((receipt) => {
+        Modal.success({
+          title: `${intl.formatMessage({
+            id: "dashboardPage.functions.handleStartRound.success.title",
+          })}`,
+          content: `${intl.formatMessage({
+            id: "dashboardPage.functions.handleStartRound.success.content",
+          })}`,
+        });
+        setLoading(false);
+        handleGetRounds(accountData.originalAddress, selectedNetworkId).then(
+          () => {
+            setLoadingRounds(false);
+          }
+        );
+      })
+      .catch((err) => {
+        Modal.warning({
+          title: `${intl.formatMessage({
+            id: "dashboardPage.functions.handleStartRound.error.title",
+          })}`,
+          content: `${intl.formatMessage({
+            id: "dashboardPage.functions.handleStartRound.error.content",
+          })}`,
+        });
+        setLoading(false);
+      });
   };
 
   const handleButton = (roundData) => {
@@ -77,7 +79,7 @@ function Dashboard() {
         text: `${intl.formatMessage({
           id: "dashboardPage.functions.handleButton.ON_REGISTER_STAGE_ADMIN.text",
         })}`,
-        action: () => handleStartRound(roundData.roundKey),
+        action: () => handleStartRound(roundData.roundKey, roundData),
         withdrawText: `${intl.formatMessage({
           id: "dashboardPage.functions.handleButton.ON_REGISTER_STAGE_ADMIN.withdrawText",
         })}`,
@@ -247,104 +249,7 @@ function Dashboard() {
           </Button>
         }
       />
-      <div className={styles.RoundCards}>
-        {/* {loadingRounds ? (
-          <Flex align="center" justify="center" style={{ height: "400px" }}>
-            <Loader loadingMessage="infoLoader.dashboard" />
-          </Flex>
-        ) : completeRoundList === null && activeRounds === null ? (
-          <NotFoundPlaceholder />
-        ) : (
-          <></>
-        )} */}
-        {contentDashboard()}
-        {/* {currentAddress &&
-          completeRoundList?.map((round) => {
-            if (round?.stage === "ON_REGISTER_STAGE" && round?.toRegister) {
-              return (
-                <RoundCardNew
-                  key={round.roundKey}
-                  fromInvitation={round.fromInvitation}
-                  fromEmail={round.fromEmail}
-                  onClick={() => goToJoin(round.roundKey)}
-                />
-              );
-            }
-            const { disable, text, action, withdrawText, withdrawAction } =
-              handleButton(round);
-            return (
-              <RoundCard
-                key={round.roundKey}
-                name={round.name}
-                groupSize={round.groupSize}
-                missingPositions={round.missingPositions}
-                contractKey={round.contract}
-                positionToWithdrawPay={round.positionToWithdrawPay}
-                turn={round.turn}
-                linkTo={`/round-details?roundId=${round.roundKey}`}
-                onClick={action}
-                buttonText={text}
-                withdrawButtonText={withdrawText}
-                buttonDisabled={disable}
-                loading={loading}
-                withdraw={round.withdraw}
-                onWithdraw={withdrawAction}
-                stage={round.stage}
-                saveAmount={round.saveAmount}
-                tokenId={round.tokenId}
-                byInvitation={false}
-              />
-            );
-          })}
-        {currentAddress !== null &&
-          activeRounds?.length > 0 &&
-          activeRounds.map((round) => (
-            <CardDashboard
-              key={round.roundKey}
-              contractKey={round.contract}
-              turn={round.turn}
-              groupSize={round.groupSize}
-              name={round.name}
-              positionToWithdrawPay={round.positionToWithdrawPay}
-              linkTo={`/round-details?roundId=${round.roundKey}`}
-              realTurn={round.realTurn}
-            />
-          ))} */}
-      </div>
-      {/* {otherList?.length && (
-        <PageSubHeader
-          title={<FormattedMessage id="dashboardPage.subtitle" />}
-        />
-      )} */}
-      {/* {currentAddress &&
-        otherList &&
-        otherList?.map((round) => {
-          const { disable, text, action, withdrawText, withdrawAction } =
-            handleButton(round);
-          return (
-            <RoundCard
-              key={round.roundKey}
-              name={round.name}
-              groupSize={round.groupSize}
-              missingPositions={round.missingPositions}
-              contractKey={round.contract}
-              positionToWithdrawPay={round.positionToWithdrawPay}
-              turn={round.turn}
-              linkTo={`/round-details?roundId=${round.roundKey}`}
-              onClick={action}
-              buttonText={text}
-              withdrawButtonText={withdrawText}
-              buttonDisabled={disable}
-              loading={loading}
-              withdraw={round.withdraw}
-              onWithdraw={withdrawAction}
-              stage={round.stage}
-              saveAmount={round.saveAmount}
-              tokenId={round.tokenId}
-              byInvitation
-            />
-          );
-        })} */}
+      <div className={styles.RoundCards}>{contentDashboard()}</div>
     </>
   );
 }

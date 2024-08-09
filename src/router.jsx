@@ -19,6 +19,7 @@ const CreateBatch = lazy(() => import("./containers/CreateBatch/index"));
 const CreateBatchReceipt = lazy(
   () => import("./containers/CreateBatch/CreateBatchReceipt")
 );
+const RegisterUser = lazy(() => import("./containers/RegisterUser/index"));
 const Markup = lazy(() => import("./containers/Markup"));
 // const NotFound = lazy(() => import("./containers/NotFound")); // Optional: add a NotFound component
 const BaseLayoutTemplate = lazy(
@@ -74,6 +75,14 @@ const router = createBrowserRouter([
         element: (
           <Markup>
             <ProtectedRoute element={<CreateBatchReceipt />} />
+          </Markup>
+        ),
+      },
+      {
+        path: "register-user",
+        element: (
+          <Markup>
+            <ProtectedRoute element={<RegisterUser />} />
           </Markup>
         ),
       },
