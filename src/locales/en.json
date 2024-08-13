@@ -347,7 +347,7 @@
           "content": "Please connect your wallet to continue"
         },
         "error": {
-          "title": "Error when registering user",
+          "title": "Error Occurred During User Registration",
           "content": "Please verify that your wallet is active and try again."
         },
         "success": {

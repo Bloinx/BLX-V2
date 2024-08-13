@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Modal } from "antd";
-
+import { INITIAL_FORM_VALUES } from "./constants";
 import PageHeader from "../../components/PageHeader";
 import InputTextField from "../../components/InputTextField";
 import InputSelect from "../../components/InputSelect";
@@ -30,16 +30,16 @@ import {
 // import { MainContext } from "../../providers/provider";
 // import { getUrlParams } from "../../utils/browser";
 import { useWallet } from "../../context/WalletContext";
+import { useAuth } from "../../context/AuthContext";
+import { useRounds } from "../../context/RoundsContext";
+import APIgetRoundRegisterDetail from "../../actions/getRoundRegisterDetailSupabase";
 
-function Form({
-  form,
-  setForm,
-  roundData,
-  walletAddress,
-  wallet,
-  handleGetRounds,
-}) {
-  const user = supabase.auth.user();
+function Form() {
+  const { user } = useAuth();
+  const { handleGetRounds } = useRounds();
+  const [form, setForm] = useState(INITIAL_FORM_VALUES);
+  const [roundData, setRoundData] = useState();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [tokenSymbol, setTokenSymbol] = useState("");
@@ -56,14 +56,25 @@ function Form({
   };
 
   useEffect(() => {
-    if (Object.entries(roundData).length === 0) {
+    APIgetRoundRegisterDetail(
+      roundId,
+      accountData.originalAddress,
+      selectedNetworkId
+    ).then((dataRound) => {
+      console.log(dataRound);
+      setRoundData(dataRound);
+    });
+  }, [roundId, selectedNetworkId]);
+
+  useEffect(() => {
+    if (roundData && Object.entries(roundData).length === 0) {
       getTokenIdByRoundId(roundId).then((data) => {
         getTokenSymbol(data).then((dataToken) => {
           setTokenSymbol(dataToken);
         });
       });
     } else {
-      getTokenSymbol(roundData.tokenId).then((dataToken) => {
+      getTokenSymbol(roundData?.tokenId).then((dataToken) => {
         setTokenSymbol(dataToken);
       });
     }
@@ -75,7 +86,7 @@ function Form({
   };
 
   const handlerOnSubmit = (values) => {
-    if (!walletAddress) {
+    if (!accountData.originalAddress) {
       Modal.warning({
         title: `${intl.formatMessage({
           id: "registerUser.functions.handlerOnSubmit.warning.title",
@@ -88,13 +99,16 @@ function Form({
       setLoading(true);
       APISetRegisterUser({
         userId: user.id,
-        walletAddress,
-        roundId: roundData.roundId,
+        userEmail: user.email,
+        walletAddress: accountData.originalAddress,
+        roundId: roundData?.roundId,
         name: values.name,
         motivation: values.motivation,
         position: values.turnSelected,
-        wallet,
-        selectedNetworkId,
+        // wallet,
+        currentProvider: selectedNetworkId,
+        contract: roundData?.contract,
+        isAdmin: roundData?.isAdmin,
       })
         .then((receipt) => {
           Modal.success({
@@ -112,10 +126,10 @@ function Form({
           console.log(err);
           Modal.error({
             title: `${intl.formatMessage({
-              id: "registerUser.functions.handlerOnSubmit.success.title",
+              id: "registerUser.functions.handlerOnSubmit.error.title",
             })}`,
             content: `${intl.formatMessage({
-              id: "registerUser.functions.handlerOnSubmit.success.content",
+              id: "registerUser.functions.handlerOnSubmit.error.content",
             })}`,
           });
         });
@@ -133,8 +147,8 @@ function Form({
             motivation: form.motivation,
             turnSelected:
               form.turnSelected ||
-              (roundData.positionsAvailable && roundData.positionsAvailable[0]
-                ? roundData.positionsAvailable[0].position
+              (roundData?.positionsAvailable && roundData?.positionsAvailable[0]
+                ? roundData?.positionsAvailable[0].position
                 : 3),
           }}
           validate={confirmValidation}
@@ -183,7 +197,7 @@ function Form({
                     name="turnSelected"
                     value={values.turnSelected}
                     onChange={handleChange}
-                    options={getOptions(roundData.positionsAvailable)}
+                    options={getOptions(roundData?.positionsAvailable)}
                     error={errors.turnSelected}
                   />
                 </div>
@@ -200,7 +214,7 @@ function Form({
                         <FormattedMessage id="payments.details.securityDeposit" />
                       </div>
                       <div className={styles.TextPaymentDetails}>
-                        {roundData.cashIn || "..."} {tokenSymbol}
+                        {roundData?.cashIn || "..."} {tokenSymbol}
                       </div>
                     </div>
                     <div>
@@ -208,7 +222,7 @@ function Form({
                         <FormattedMessage id="payments.details.serviceFee" />
                       </div>
                       <div className={styles.TextPaymentDetails}>
-                        {roundData.feeCost || "..."} {tokenSymbol}
+                        {roundData?.feeCost || "..."} {tokenSymbol}
                       </div>
                     </div>
                   </div>

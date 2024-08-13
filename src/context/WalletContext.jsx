@@ -4,6 +4,7 @@ import { useAccount, useDisconnect } from "wagmi";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { isNetworkValid } from "../constants/networks";
 import { celo, celoAlfajores } from "wagmi/chains";
+import getFunds from "../actions/getFunds";
 
 const WalletContext = createContext();
 
@@ -23,6 +24,26 @@ export function WalletProvider({ children }) {
     // return process.env.NODE_ENV === "production" ? celo : celoAlfajores;
     return celoAlfajores;
   };
+
+  useEffect(() => {
+    if (
+      accountData.originalAddress !== null &&
+      window.ethereum !== undefined &&
+      selectedNetworkId
+    ) {
+      console.log(accountData, window.ethereum, selectedNetworkId);
+      const fetchBalance = async () => {
+        const balance = await getFunds(
+          accountData.originalAddress,
+          selectedNetworkId
+        );
+        console.log(balance);
+        setFunds(balance);
+      };
+
+      fetchBalance();
+    }
+  }, [accountData, window.ethereum, selectedNetworkId]);
 
   useEffect(() => {
     if (isDisconnected) {
@@ -82,6 +103,7 @@ export function WalletProvider({ children }) {
         open,
         isOpen,
         disconnect,
+        funds,
       }}
     >
       {children}

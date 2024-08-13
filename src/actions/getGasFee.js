@@ -12,7 +12,7 @@ const CELO_GAS_STATION =
 const getGasFee = async (chainId) => {
   let maxPriorityFeePerGas = 0;
   let maxFeePerGas = 0;
-
+  console.log(chainId);
   switch (chainId) {
     case 137:
       try {

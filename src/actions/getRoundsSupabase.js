@@ -307,8 +307,7 @@ export const configByPosition = async (
       missingPositions: available.length,
       stage,
       turn,
-      isAdmin:
-        walletAddress === data?.wallet && walletAddress === admin.toLowerCase(),
+      isAdmin: walletAddress === admin,
       positionToWithdrawPay: data?.position,
       realTurn,
       withdraw: Number(realTurn) > data?.position && Number(savings) > 0,

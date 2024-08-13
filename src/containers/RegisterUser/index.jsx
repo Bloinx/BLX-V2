@@ -25,7 +25,7 @@ export default function RegisterUser() {
   // const { currentAddress, wallet, currentProvider, funds } =
   //   useContext(MainContext);
   // const [tokenBalance, setTokenBalance] = useState();
-  const { accountData, selectedNetworkId } = useWallet();
+  const { accountData, selectedNetworkId, funds } = useWallet();
   const { handleGetRounds } = useRounds();
 
   useEffect(() => {
@@ -46,7 +46,7 @@ export default function RegisterUser() {
       roundData={roundData}
       // wallet={wallet}
       chainId={selectedNetworkId}
-      // funds={funds}
+      funds={funds}
     />
 
     // <Route
