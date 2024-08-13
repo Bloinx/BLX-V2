@@ -82,7 +82,8 @@
         },
         "ON_ROUND_ACTIVE": {
           "withdrawText": "Terminar y Cobrar",
-          "withdrawTextElse": "Cobrar"
+          "withdrawTextElse": "Cobrar",
+          "finishRound": "Terminar"
         },
         "ON_ROUND_FINISHED": {
           "text": "Finalizado",
