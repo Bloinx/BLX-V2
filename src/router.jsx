@@ -22,6 +22,7 @@ const CreateBatchReceipt = lazy(
 const RegisterUser = lazy(() => import("./containers/RegisterUser/index"));
 const RegisterUserForm = lazy(() => import("./containers/RegisterUser/Form"));
 const RoundDetails = lazy(() => import("./containers/RoundDetails/index"));
+const Invitations = lazy(() => import("./containers/Invitations/index"));
 const Markup = lazy(() => import("./containers/Markup"));
 // const NotFound = lazy(() => import("./containers/NotFound")); // Optional: add a NotFound component
 const BaseLayoutTemplate = lazy(
@@ -101,6 +102,14 @@ const router = createBrowserRouter([
         element: (
           <Markup>
             <ProtectedRoute element={<RoundDetails />} />
+          </Markup>
+        ),
+      },
+      {
+        path: "invitations",
+        element: (
+          <Markup>
+            <ProtectedRoute element={<Invitations />} />
           </Markup>
         ),
       },

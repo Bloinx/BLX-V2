@@ -1,6 +1,7 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Button } from "antd";
+import { formatAddress } from "../../utils/format";
 
 import styles from "./RoundCardNew.module.scss";
 
@@ -9,6 +10,7 @@ export default function RoundCardNew({
   onClick,
   fromInvitation,
   fromEmail,
+  contract,
 }) {
   return (
     <div className={styles.RoundCardNew}>
@@ -19,9 +21,10 @@ export default function RoundCardNew({
           <FormattedMessage id="dashboardPage.roundCaption" />
         )}
       </p>
+      {!fromInvitation ? formatAddress(contract) : null}
       <p className={styles.RoundCardNewText}>
         {fromInvitation
-          ? `Te han invitado a la ronda de ${fromEmail}`
+          ? `Te han invitado a la ronda de ${fromEmail} con contrato: ${formatAddress(contract)}`
           : "Personaliza tu ronda."}
       </p>
       <p className={styles.RoundCardNewText}>

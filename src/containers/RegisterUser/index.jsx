@@ -19,7 +19,7 @@ export default function RegisterUser() {
   // const { roundId } = getUrlParams(history.location.search);
   const [searchParams] = useSearchParams();
   const roundId = searchParams.get("roundId");
-
+  console.log(roundId);
   const [form, setForm] = useState(INITIAL_FORM_VALUES);
   const [roundData, setRoundData] = useState();
   // const { currentAddress, wallet, currentProvider, funds } =
@@ -29,10 +29,14 @@ export default function RegisterUser() {
   const { handleGetRounds } = useRounds();
 
   useEffect(() => {
-    APIgetRoundRegisterDetail(roundId, selectedNetworkId).then((dataRound) => {
+    APIgetRoundRegisterDetail(
+      roundId,
+      accountData.originalAddress,
+      selectedNetworkId
+    ).then((dataRound) => {
       setRoundData(dataRound);
     });
-  }, [roundId, selectedNetworkId]);
+  }, [roundId, selectedNetworkId, accountData]);
 
   if (roundData === undefined) {
     return <Loader loadingMessage="infoLoader.roundPage" />;

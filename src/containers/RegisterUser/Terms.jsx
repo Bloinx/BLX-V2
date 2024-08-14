@@ -47,7 +47,7 @@ function Terms({
     } else {
       MethodGetRegisterStable({
         walletAddress,
-        roundId: data.roundId,
+        roundId: data?.roundId,
         // wallet,
         chainId,
       })

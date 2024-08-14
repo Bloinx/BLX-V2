@@ -61,7 +61,6 @@ function Form() {
       accountData.originalAddress,
       selectedNetworkId
     ).then((dataRound) => {
-      console.log(dataRound);
       setRoundData(dataRound);
     });
   }, [roundId, selectedNetworkId]);

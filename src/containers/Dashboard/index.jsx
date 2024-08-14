@@ -186,6 +186,7 @@ function Dashboard() {
                     key={round.roundKey}
                     fromInvitation={round.fromInvitation}
                     fromEmail={round.fromEmail}
+                    contract={round.contract}
                     onClick={() => goToJoin(round.roundKey)}
                   />
                 ) : (

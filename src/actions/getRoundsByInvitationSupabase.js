@@ -22,6 +22,7 @@ export const configByInvitation = async (
     toRegister: true,
     fromInvitation: true,
     fromEmail: adminEmail,
+    contract: round.contract,
   };
 
   return roundData;
