@@ -23,6 +23,7 @@ const RegisterUser = lazy(() => import("./containers/RegisterUser/index"));
 const RegisterUserForm = lazy(() => import("./containers/RegisterUser/Form"));
 const RoundDetails = lazy(() => import("./containers/RoundDetails/index"));
 const Invitations = lazy(() => import("./containers/Invitations/index"));
+const PaymentDetails = lazy(() => import("./containers/PaymentDetails/index"));
 const Markup = lazy(() => import("./containers/Markup"));
 // const NotFound = lazy(() => import("./containers/NotFound")); // Optional: add a NotFound component
 const BaseLayoutTemplate = lazy(
@@ -110,6 +111,14 @@ const router = createBrowserRouter([
         element: (
           <Markup>
             <ProtectedRoute element={<Invitations />} />
+          </Markup>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <Markup>
+            <ProtectedRoute element={<PaymentDetails />} />
           </Markup>
         ),
       },
