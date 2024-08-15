@@ -14,7 +14,7 @@ export const FormProvider = ({ children }) => {
   const { tokens } = useToken(selectedNetworkId);
 
   const getDefaultToken = (selectedNetworkId) => {
-    return selectedNetworkId === 137 || selectedNetworkId === 80001
+    return selectedNetworkId === 137 || selectedNetworkId === 80002
       ? "USDC"
       : "cUSD";
   };

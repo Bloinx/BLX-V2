@@ -57,6 +57,15 @@ networks = {
     faucet: "https://faucet.polygon.technology/",
     blockExplorer: "https://mumbai.polygonscan.com/",
   },
+  80002: {
+    name: "amoy",
+    chainId: 80002,
+    icon: PolygonLogo,
+    currency: "Matic",
+    rpcUrl: "https://rpc-amoy.polygon.technology/",
+    faucet: "https://faucet.polygon.technology/",
+    blockExplorer: "https://amoy.polygonscan.com/",
+  },
   44787: {
     name: "alfajores",
     chainId: 44787,

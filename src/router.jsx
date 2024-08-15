@@ -24,6 +24,7 @@ const RegisterUserForm = lazy(() => import("./containers/RegisterUser/Form"));
 const RoundDetails = lazy(() => import("./containers/RoundDetails/index"));
 const Invitations = lazy(() => import("./containers/Invitations/index"));
 const PaymentDetails = lazy(() => import("./containers/PaymentDetails/index"));
+const History = lazy(() => import("./containers/History"));
 const Markup = lazy(() => import("./containers/Markup"));
 // const NotFound = lazy(() => import("./containers/NotFound")); // Optional: add a NotFound component
 const BaseLayoutTemplate = lazy(
@@ -119,6 +120,14 @@ const router = createBrowserRouter([
         element: (
           <Markup>
             <ProtectedRoute element={<PaymentDetails />} />
+          </Markup>
+        ),
+      },
+      {
+        path: "history",
+        element: (
+          <Markup>
+            <ProtectedRoute element={<History />} />
           </Markup>
         ),
       },

@@ -2,7 +2,13 @@ import React from "react";
 import { defaultWagmiConfig } from "@web3modal/wagmi/react/config";
 import { createWeb3Modal } from "@web3modal/wagmi/react";
 import { WagmiProvider } from "wagmi";
-import { celo, celoAlfajores, polygon, polygonMumbai } from "wagmi/chains";
+import {
+  celo,
+  celoAlfajores,
+  polygon,
+  polygonMumbai,
+  polygonAmoy,
+} from "wagmi/chains";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const queryClient = new QueryClient();
@@ -18,7 +24,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 
-const chains = [celoAlfajores, polygonMumbai];
+const chains = [celoAlfajores];
 // process.env.NODE_ENV === "production"
 //   ? [celo, polygon]
 //   : [celoAlfajores, polygonMumbai];

@@ -2,6 +2,7 @@ import axios from "axios";
 import Web3 from "web3";
 
 const MUMBAI_GAS_STATION = "https://gasstation-testnet.polygon.technology/v2";
+const AMOY_GAS_STATION = "https://gasstation.polygon.technology/amoy";
 const POLYGON_GAS_STATION = "https://gasstation.polygon.technology/v2";
 
 const ALFAJORES_GAS_STATION =
@@ -46,6 +47,38 @@ const getGasFee = async (chainId) => {
     case 80001:
       try {
         const result = await axios.get(MUMBAI_GAS_STATION);
+        if (result?.data) {
+          const { standard, estimatedBaseFee } = result.data;
+          if (standard && estimatedBaseFee) {
+            const formattedMaxPriorityFee = (
+              standard.maxPriorityFee +
+              standard.maxPriorityFee * 0.1
+            ).toFixed(9);
+            const maxPriorityFeePerGasTemp = Web3.utils.toWei(
+              formattedMaxPriorityFee,
+              "gwei"
+            );
+
+            maxPriorityFeePerGas = Number(maxPriorityFeePerGasTemp);
+
+            const formattedEstimatedBaseFeeTemp = estimatedBaseFee * 10 ** 8;
+            const formattedEstimatedBaseFee =
+              formattedEstimatedBaseFeeTemp.toFixed(9);
+
+            const maxFeePerGasTemp = Web3.utils.toWei(
+              formattedEstimatedBaseFee,
+              "gwei"
+            );
+            maxFeePerGas = Number(maxFeePerGasTemp) + maxPriorityFeePerGas;
+          }
+        }
+      } catch (error) {
+        console.log("[ERROR] !! ", error);
+      }
+      break;
+    case 80002:
+      try {
+        const result = await axios.get(AMOY_GAS_STATION);
         if (result?.data) {
           const { standard, estimatedBaseFee } = result.data;
           if (standard && estimatedBaseFee) {
