@@ -92,9 +92,10 @@ export function AuthProvider({ children }) {
         data: { session, user },
         error,
       } = await supabase.auth.signUp({
-        email,
-        password,
+        email: email,
+        password: password,
       });
+
       if (error) throw error;
       dispatch({ type: "SESSION_UPDATED", payload: { session, user } });
     } catch (error) {

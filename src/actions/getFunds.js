@@ -74,7 +74,7 @@ async function getERC20TokenBalance(walletAddress, tokenAddress, provider) {
 
 // Main function to get token balances
 const getFunds = async (walletAddress, networkId) => {
-  console.log(walletAddress, networkId, "hjashja");
+  // console.log(walletAddress, networkId);
   const network = networkId === 44787 ? "alfajores" : "celoMainnet";
   const config = NETWORK_CONFIG[network];
 

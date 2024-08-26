@@ -79,7 +79,7 @@ const setRegisterUser = async (props) => {
     console.error(error);
     throw error;
   }
-  console.log(sg);
+
   console.log(
     userEmail,
     roundId,

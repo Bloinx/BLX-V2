@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -13,23 +13,22 @@ import { useAuth } from "../../context/AuthContext";
 function SignUp() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { signUp, setUserData } = useAuth();
+  const [formValues, setFormValues] = useState();
+  const { signUp, setUserData, user } = useAuth();
   const intl = useIntl();
 
-  const registerUser = (values) => {
-    setLoading(true);
-    signUp({
-      values,
-      onSuccess: (data) => {
-        setUserData(data, values);
+  useEffect(() => {
+    if (user && formValues) {
+      setUserData(user, formValues);
+      setLoading(false);
+      navigate("/dashboard");
+    }
+  }, [user, formValues]);
 
-        setLoading(false);
-        navigate("/dashboard");
-      },
-      onFailure: (err) => {
-        setLoading(false);
-      },
-    });
+  const registerUser = (values) => {
+    setFormValues(values);
+    setLoading(true);
+    signUp(values.email, values.password);
   };
 
   return (
