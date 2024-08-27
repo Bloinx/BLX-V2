@@ -41,6 +41,12 @@ function Dashboard() {
 
   const handleStartRound = (roundData) => {
     setLoading(true);
+    console.log(
+      accountData.originalAddress,
+      roundData,
+      selectedNetworkId,
+      "HANDLE START ROUND"
+    );
     setStartRound(accountData.originalAddress, roundData, selectedNetworkId)
       .then((receipt) => {
         Modal.success({
@@ -59,6 +65,7 @@ function Dashboard() {
         );
       })
       .catch((err) => {
+        console.log(err);
         Modal.warning({
           title: `${intl.formatMessage({
             id: "dashboardPage.functions.handleStartRound.error.title",

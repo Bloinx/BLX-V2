@@ -6,7 +6,7 @@ const setStartRound = async (currentWallet, roundData, chainId) => {
   //   const { data } = await supabase.from("rounds").select().eq("id", roundId);
 
   const gasFee = await getGasFee(chainId);
-
+  console.log(currentWallet, roundData, chainId, "parameters start round");
   const sg = await new Promise((resolve, reject) => {
     try {
       resolve(config(roundData.contract, chainId));
@@ -14,8 +14,7 @@ const setStartRound = async (currentWallet, roundData, chainId) => {
       reject(error);
     }
   });
-
-  // const sg = await config(data.contract);
+  console.log(sg, "sg methods");
   return new Promise((resolve, reject) => {
     sg.methods
       .startRound()
