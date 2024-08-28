@@ -1,12 +1,22 @@
 /* eslint-disable no-unused-vars */
 import config from "./config.sg.web3";
 import getGasFee from "./getGasFee";
+import { supabase } from "../supabaseClient";
 
 const setStartRound = async (currentWallet, roundData, chainId) => {
-  //   const { data } = await supabase.from("rounds").select().eq("id", roundId);
+  const { data } = await supabase
+    .from("rounds")
+    .select()
+    .eq("id", roundData.roundKey);
 
   const gasFee = await getGasFee(chainId);
-  console.log(currentWallet, roundData, chainId, "parameters start round");
+  console.log(
+    currentWallet,
+    roundData,
+    chainId,
+    data,
+    "parameters start round"
+  );
   const sg = await new Promise((resolve, reject) => {
     try {
       resolve(config(roundData.contract, chainId));
@@ -19,8 +29,8 @@ const setStartRound = async (currentWallet, roundData, chainId) => {
     sg.methods
       .startRound()
       .send({
-        from: currentWallet,
-        to: roundData.contract,
+        from: data[0].wallet,
+        to: data[0].contract,
         maxFeePerGas: gasFee.maxFeePerGas,
         maxPriorityFeePerGas: gasFee.maxPriorityFeePerGas,
       })
