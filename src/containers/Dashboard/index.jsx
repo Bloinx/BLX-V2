@@ -86,7 +86,7 @@ function Dashboard() {
         text: `${intl.formatMessage({
           id: "dashboardPage.functions.handleButton.ON_REGISTER_STAGE_ADMIN.text",
         })}`,
-        action: () => handleStartRound(roundData.roundKey, roundData),
+        action: () => handleStartRound(roundData),
         withdrawText: `${intl.formatMessage({
           id: "dashboardPage.functions.handleButton.ON_REGISTER_STAGE_ADMIN.withdrawText",
         })}`,
