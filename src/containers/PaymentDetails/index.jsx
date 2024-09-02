@@ -125,10 +125,10 @@ function StepContent({
             onClick={() =>
               handlePayRound({
                 remainingAmount: data.futurePayments,
-                setLoading,
+                setLoading: setLoading,
                 walletAddress,
                 currentProvider,
-                intl,
+                intl: intl,
                 contract: data.contract,
                 saveAmount: data.saveAmount,
                 sgMethods: data.sgMethods,
