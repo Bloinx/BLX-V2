@@ -3,6 +3,7 @@ import MethodGetSaveAmount from "./methods/saveAmount";
 import getGasFee from "./getGasFee";
 
 const setAddPayment = async (props) => {
+  console.log(props, "props payment");
   const { walletAddress, currentProvider, contract, sgMethods } = props;
   const gasFee = await getGasFee(currentProvider);
   const savedAmount = await MethodGetSaveAmount(sgMethods);

@@ -1,7 +1,7 @@
 import { Modal } from "antd";
 import APISetAddPayment from "./setAddPaymentSupabase";
 
-const handlePayRound = (
+const handlePayRound = ({
   remainingAmount,
   setLoading,
   walletAddress,
@@ -11,11 +11,10 @@ const handlePayRound = (
   saveAmount,
   sgMethods,
   roundId,
-  navigate
-) => {
-  setLoading(true);
-
+  navigate,
+}) => {
   if (remainingAmount > 0) {
+    setLoading(true);
     APISetAddPayment({
       walletAddress,
       currentProvider,
@@ -25,7 +24,7 @@ const handlePayRound = (
     })
       .then(() => {
         Modal.success({
-          title: `${intl.formatMessage({
+          title: `${intl?.formatMessage({
             id: "dashboardPage.functions.handlePayRound.APISetAddPayment.success.title",
           })}`,
           content: "...",
@@ -36,14 +35,14 @@ const handlePayRound = (
       .catch((err) => {
         if (err.code === 4001) {
           Modal.error({
-            title: `${intl.formatMessage({
+            title: `${intl?.formatMessage({
               id: "dashboardPage.functions.handlePayRound.APISetAddPayment.error.reject",
             })}`,
             content: "...",
           });
         } else {
           Modal.error({
-            title: `${intl.formatMessage({
+            title: `${intl?.formatMessage({
               id: "dashboardPage.functions.handlePayRound.APISetAddPayment.error.title",
             })}`,
             content: "...",
@@ -53,7 +52,7 @@ const handlePayRound = (
       });
   } else {
     Modal.success({
-      content: `${intl.formatMessage({
+      content: `${intl?.formatMessage({
         id: "dashboardPage.functions.handlePayRound.APIGetFuturePayments.success.content",
       })}`,
     });
