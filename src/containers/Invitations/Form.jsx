@@ -17,29 +17,44 @@ function Form({ roundId, currentProvider }) {
   const [mailList, setMailList] = useState([]);
   const intl = useIntl();
 
-  const handleSendEmails = () => {
-    APISetSaveInvitations(mailList, roundId, currentProvider)
-      .then((status) => {
-        Modal.success({
-          title: `${intl.formatMessage({
-            id: "invitations.functions.handleSendEmails.success.title",
-          })}`,
+  const handleSendEmails = async () => {
+    try {
+      const { duplicateEmails, status } = await APISetSaveInvitations(
+        mailList,
+        roundId,
+        currentProvider
+      );
+
+      if (duplicateEmails.length > 0) {
+        Modal.warning({
+          title: intl.formatMessage({
+            id: "invitations.functions.handleSendEmails.warning.title",
+          }),
           content: `${intl.formatMessage({
+            id: "invitations.functions.handleSendEmails.warning.content",
+          })}: ${duplicateEmails.join(", ")}`,
+        });
+      } else if (status) {
+        Modal.success({
+          title: intl.formatMessage({
+            id: "invitations.functions.handleSendEmails.success.title",
+          }),
+          content: intl.formatMessage({
             id: "invitations.functions.handleSendEmails.success.content",
-          })}`,
+          }),
         });
         navigate(`/round-details?roundId=${roundId}`);
-      })
-      .catch((err) => {
-        Modal.error({
-          title: `${intl.formatMessage({
-            id: "invitations.functions.handleSendEmails.error.title",
-          })}`,
-          content: `${intl.formatMessage({
-            id: "invitations.functions.handleSendEmails.error.content",
-          })}`,
-        });
+      }
+    } catch (err) {
+      Modal.error({
+        title: intl.formatMessage({
+          id: "invitations.functions.handleSendEmails.error.title",
+        }),
+        content: intl.formatMessage({
+          id: "invitations.functions.handleSendEmails.error.content",
+        }),
       });
+    }
   };
 
   const handlerOnChangeEmailList = (mails) => {
