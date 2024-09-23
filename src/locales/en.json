@@ -200,6 +200,10 @@
         "error": {
           "title": "Error when sending invitations",
           "content": "Please verify that your wallet is active and try again."
+        },
+        "warning": {
+          "title": "Invitation Previously Sent",
+          "content": "These users already have an invitation "
         }
       }
     }

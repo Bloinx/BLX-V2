@@ -29,20 +29,44 @@ const getPositionUserAdmin = async (idRound, userAdminId) => {
   return data[0];
 };
 
-const setEmailInvite = (mailList, roundId) => {
-  mailList.forEach(async (mail) => {
-    const { data, error } = await supabase
-      .from("invitationsByRound")
-      .insert([{ idRound: roundId, userEmail: mail, isRegister: false }]);
-  });
-};
+const setEmailInvite = async (mailList, roundId) => {
+  const duplicateEmails = [];
 
+  for (const mail of mailList) {
+    const { data: existingInvite, error: checkError } = await supabase
+      .from("invitationsByRound")
+      .select("*")
+      .eq("idRound", roundId)
+      .eq("userEmail", mail);
+
+    if (checkError) {
+      console.error("Error al verificar la invitación existente:", checkError);
+      continue;
+    }
+
+    if (existingInvite.length === 0) {
+      const { data, error } = await supabase
+        .from("invitationsByRound")
+        .insert([{ idRound: roundId, userEmail: mail, isRegister: false }]);
+
+      if (error) {
+        console.error("Error al insertar la invitación:", error);
+      }
+    } else {
+      duplicateEmails.push(mail);
+    }
+  }
+
+  return duplicateEmails;
+};
 const setSaveInvitations = async (
   mailList,
   round,
   positionData,
   currentProvider
 ) => {
+  const duplicateEmails = await setEmailInvite(mailList, round?.id);
+
   const sg = await config(round?.contract, currentProvider);
   // : await walletConnect(round?.contract, currentProvider);
 
@@ -54,6 +78,7 @@ const setSaveInvitations = async (
   const longevity = (payTime / dayInSeconds) * groupSize;
 
   const totalAmount = Number(saveAmount * 10 ** -decimals) * Number(groupSize);
+  let allEmailsSent = true;
   try {
     await mailList.forEach((mail) => {
       axios
@@ -87,13 +112,16 @@ const setSaveInvitations = async (
           return true;
         })
         .catch((e) => {
+          allEmailsSent = false;
+          console.error(`Error al enviar correo a ${mail}:`, e);
           return false;
         });
     });
   } catch (error) {
-    return false;
+    allEmailsSent = false;
+    console.error("Error en el proceso de envío de correos:", error);
   }
-  return true;
+  return { duplicateEmails, status: allEmailsSent };
 };
 
 export const getRoundData = async (roundId) => {

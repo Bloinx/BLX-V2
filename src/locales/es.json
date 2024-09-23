@@ -200,6 +200,10 @@
         "error": {
           "title": "Error al enviar las invitaciones",
           "content": "No pudimos enviar las invitaciones. Por favor verifica mas tarde o intenta nuevamente."
+        },
+        "warning": {
+          "title": "Invitación enviada con anterioridad",
+          "content": "Ya tienen una invitación"
         }
       }
     }
