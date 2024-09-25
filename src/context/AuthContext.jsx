@@ -125,8 +125,7 @@ export function AuthProvider({ children }) {
   const resetPasswordForEmail = async (email, onSuccess, onFailure) => {
     dispatch({ type: "LOADING", payload: true });
     try {
-      const { data, error } =
-        await supabase.auth.api.resetPasswordForEmail(email);
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email);
       if (error) {
         throw error;
       } else {

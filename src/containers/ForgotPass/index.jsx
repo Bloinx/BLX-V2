@@ -30,14 +30,14 @@ function ForgotPass() {
 
   const handleForgotPass = () => {
     setLoading(true);
-    resetPasswordForEmail({
-      emailReset: email,
-      onSuccess: (data) => {
+    resetPasswordForEmail(
+      email,
+      (data) => {
         // saveUser(data);
         setLoading(false);
         // navigate("/update-password");
       },
-      onFailure: (er) => {
+      (er) => {
         if (er) {
           setLoading(false);
           setError(true);
@@ -47,8 +47,8 @@ function ForgotPass() {
             })}`
           );
         }
-      },
-    });
+      }
+    );
   };
 
   const handleEmailChange = (e) => {
